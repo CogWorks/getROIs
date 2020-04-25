@@ -33,3 +33,26 @@ ROI-classified gaze data for duration of participant gaze
 	- Appropriate for more ambiguous gaze environments, like JAG
 	- Allows for partial association with multiple gaze objects
 		
+# Simple getROIS tsv outputs with one subjects' data:
+- Will write ROI-classified gaze data to same directory as eyeFile data
+- You need:
+	- Python 3.8+ installed
+	- Data for subject
+		- Meta2 Files in one directory
+			- 1 game file per game
+			- Game names like: 19CTWC007_2019-10-19_06-28-54_classic-tetris_zerotillnineteen.tsv
+			- Log file like:  191019-061931_19CTWC007_SPEEDTETRIS.log
+			- Sync File like: 191019-061931_19CTWC007_SPEEDTETRIS_tobii-sync.tsv
+		- Gazetools output file
+			- should have used Tobii file as input to Gazetools
+			- Tobii names like: CTWC19 Recording8 19CTWC007
+	- getROIS
+- Can call from command line or in file:
+	- Command line: `python writeROIs.py logFile eyeFile`
+	- in Python: `writeROIs(logFile, eyeFile)
+	- where `logFile` is the location of the Meta2 log file
+	- where `eyeFile` is the location of the gazetools eye file
+	
+	
+	
+	

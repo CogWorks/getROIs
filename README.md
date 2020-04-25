@@ -1,50 +1,35 @@
 # getROIs
-Turns gaze data and game data into ROI-classified gaze data
+Turns Cogworks/gazetools gaze data and Meta2 game data into ROI-classified gaze data.
 
+## Inputs:
+- classified gaze data (rda or csv)
+	- gaze location
+	- gaze classification
+- game files = collections of game events:
+	- Episodes
+	- zoid_rep
+	- board_rep
+- linkage method for gaze and game data
+	- Time stamp glue file
+	- (Tobii Sync tsv for Meta2)
 
-Inputs:
-	classified gaze data (rda or csv)
-		gaze location
-		gaze classification
-		Applyable high and low pass filters
-	game files = collections of game events:
-		Episodes
-		zoid_rep
-		board_rep
-	linkable together by time stamps
-		and for different recording sessions
-	(interface for MetaT inputs too)
-	
-	
+## Outputs:
+ROI-classified gaze data for duration of participant gaze
+- collection of ROI-classified gaze objects
+- a gaze object has:
+	- timestamps
+	- time series of gaze location
+	- association with game object such as:
+		- curr_zoid
+		- placement_location
+		- Next_box
 
-
-Outputs:
-	ROI-classified gaze data for duration of gaze
-		collection of ROI-classified gaze object:
-			association with game object
-				curr_zoid
-				placement_location
-				Next_box
-				etc
-			time series of gaze location
-			timestamps
-			
-	(uncertainty)
-		(association with multiple gaze objects)
+## Coming soon:
+- Compatibility with other gaze inputs or other game style inputs
+	- such as MetaT
+	- such as JAG
+- Propagation of uncertainty
+	- allows for probabilistic approach
+	- Appropriate for more ambiguous gaze environments, like JAG
+	- Allows for partial association with multiple gaze objects
 		
-		
-
-Other desiderata:
-	Maintainable
-		modular
-		object-oriented
-	Extendable to other gaze paradigms
-		(such as JAG)
-		(inclusion of uncertainty)
-	Well-documented
-		(to some particular specified standard)
-	Work-onable by Chris and Sounak simultaneously for swift development
-	
-Weird things to remember:
-	tobii time stamp offsets
-	

@@ -1,0 +1,51 @@
+mysql> DESCRIBE GameLogs;
++----------------+------------+------+-----+---------+-------+
+| Field          | Type       | Null | Key | Default | Extra |
++----------------+------------+------+-----+---------+-------+
+| gameID         | bigint(20) | YES  |     | NULL    |       |
+| ts             | double     | YES  |     | NULL    |       |
+| system_ticks   | bigint(20) | YES  |     | NULL    |       |
+| event_type     | text       | YES  |     | NULL    |       |
+| episode_number | bigint(20) | YES  |     | NULL    |       |
+| level          | bigint(20) | YES  |     | NULL    |       |
+| score          | bigint(20) | YES  |     | NULL    |       |
+| lines_cleared  | bigint(20) | YES  |     | NULL    |       |
+| evt_id         | text       | YES  |     | NULL    |       |
+| evt_data1      | text       | YES  |     | NULL    |       |
+| evt_data2      | text       | YES  |     | NULL    |       |
+| curr_zoid      | text       | YES  |     | NULL    |       |
+| next_zoid      | text       | YES  |     | NULL    |       |
+| board_rep      | text       | YES  |     | NULL    |       |
+| zoid_rep       | text       | YES  |     | NULL    |       |
++----------------+------------+------+-----+---------+-------+
+
+mysql> DESCRIBE GameSummaries;
++--------------------+------------+------+-----+---------+-------+
+| Field              | Type       | Null | Key | Default | Extra |
++--------------------+------------+------+-----+---------+-------+
+| gameID             | bigint(20) | YES  |     | NULL    |       |
+| MetaTwo_build      | text       | YES  |     | NULL    |       |
+| Exp_StartTime      | text       | YES  |     | NULL    |       |
+| GameStart          | text       | YES  |     | NULL    |       |
+| GameStart_Tick     | text       | YES  |     | NULL    |       |
+| CPUTick_Frequency  | text       | YES  |     | NULL    |       |
+| SID                | text       | YES  |     | NULL    |       |
+| USID               | text       | YES  |     | NULL    |       |
+| ECID               | text       | YES  |     | NULL    |       |
+| Environment        | text       | YES  |     | NULL    |       |
+| Task               | text       | YES  |     | NULL    |       |
+| SessionNum         | text       | YES  |     | NULL    |       |
+| GameNum            | text       | YES  |     | NULL    |       |
+| InputType          | text       | YES  |     | NULL    |       |
+| Connected_Inputs   | text       | YES  |     | NULL    |       |
+| randSeed           | text       | YES  |     | NULL    |       |
+| Screen_Resolution  | text       | YES  |     | NULL    |       |
+| Screen_DPI         | text       | YES  |     | NULL    |       |
+| Fullscreen         | text       | YES  |     | NULL    |       |
+| Window_Height      | text       | YES  |     | NULL    |       |
+| Window_Width       | text       | YES  |     | NULL    |       |
+| md5sum_study       | text       | YES  |     | NULL    |       |
+| md5sum_task        | text       | YES  |     | NULL    |       |
+| md5sum_environment | text       | YES  |     | NULL    |       |
+| filePath           | text       | YES  |     | NULL    |       |
++--------------------+------------+------+-----+---------+-------+

@@ -1,0 +1,74 @@
+Recording timestamp
+Project name
+Export date
+Participant name
+Recording name
+Recording date
+Recording start time
+Recording duration
+Timeline name
+Recording Fixation filter name
+Recording software version
+Recording resolution height
+Recording resolution width
+Recording monitor latency
+Average calibration accuracy (mm)
+Average calibration precision SD (mm)
+Average calibration precision RMS (mm)
+Average calibration accuracy (degrees)
+Average calibration precision SD (degrees)
+Average calibration precision RMS (degrees)
+Average calibration accuracy (pixels)
+Average calibration precision SD (pixels)
+Average calibration precision RMS (pixels)
+Average validation accuracy (mm)
+Average validation precision SD (mm)
+Average validation precision RMS (mm)
+Average validation accuracy (degrees)
+Average validation precision SD (degrees)
+Average validation precision RMS (degrees)
+Average validation accuracy (pixels)
+Average validation precision SD (pixels)
+Average validation precision RMS (pixels)
+Eyetracker timestamp
+Event
+Event value
+Gaze point X
+Gaze point Y
+Gaze point left X
+Gaze point left Y
+Gaze point right X
+Gaze point right Y
+Gaze direction left X
+Gaze direction left Y
+Gaze direction left Z
+Gaze direction right X
+Gaze direction right Y
+Gaze direction right Z
+Pupil diameter left
+Pupil diameter right
+Validity left
+Validity right
+Eye position left X (DACSmm)
+Eye position left Y (DACSmm)
+Eye position left Z (DACSmm)
+Eye position right X (DACSmm)
+Eye position right Y (DACSmm)
+Eye position right Z (DACSmm)
+Gaze point left X (DACSmm)
+Gaze point left Y (DACSmm)
+Gaze point right X (DACSmm)
+Gaze point right Y (DACSmm)
+Gaze point X (MCSnorm)
+Gaze point Y (MCSnorm)
+Gaze point left X (MCSnorm)
+Gaze point left Y (MCSnorm)
+Gaze point right X (MCSnorm)
+Gaze point right Y (MCSnorm)
+Eye movement type
+Gaze event duration
+Eye movement type index
+Fixation point X
+Fixation point Y
+Fixation point X (MCSnorm)
+Fixation point Y (MCSnorm)

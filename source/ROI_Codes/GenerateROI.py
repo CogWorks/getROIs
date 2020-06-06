@@ -1,13 +1,19 @@
-# Parameters
-gameList_Query = "SELECT gameID FROM GameSummaries WHERE filePath LIKE '%CTWC19%' AND ECID <> '9test' OR ECID <> 'ultraspeedtetris'"
-
-
-
-
 # Libraries
 from sqlalchemy import create_engine
 import pymysql
 import pandas as pd
+
+from ..Parsers.GameParser import Meta2_SQL
+
+class Meta2SQL_TobiiRDS:
+        def __init__(self):
+                pass
+
+        def run(self):
+
+
+# Parameters
+gameList_Query = "SELECT gameID FROM GameSummaries WHERE filePath LIKE '%CTWC19%' AND ECID <> '9test' OR ECID <> 'ultraspeedtetris'"
 
 # Create connection with database
 sqlEngine = create_engine('mysql+pymysql://tetris_ro:CogWorksTetris@cwlsql.hass.rpi.edu/TetrisMetaTWO', pool_recycle=3600)

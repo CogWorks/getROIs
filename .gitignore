@@ -130,3 +130,7 @@ dmypy.json
 
 # MacOS Filess
 .DS_Store
+
+# Data files
+*.csv
+*.tsv

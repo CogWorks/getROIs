@@ -13,8 +13,9 @@ gameData_colNames = []
 
 import os
 
-from ROI_Library.Parsers.GazeParsers import Tobii_gazeTools_CSV_Parser as gazeParser
-from ROI_Library.Parsers.GameParsers import Meta2_SQL_Parser as gameParser
+from Library.Parsers.GazeParsers import Tobii_gazeTools_CSV_Parser as gazeParser
+from Library.Parsers.GameParsers import Meta2_SQL_Parser as gameParser
+from Library.Parsers.OtherParsers import SyncFile_Parser as syncParser
 
 
 # Parameters:
@@ -29,3 +30,4 @@ def getClassifications(sourcePath):
             gameData = gameParser.parse(gameData_colNames)
             if gameData == None:
                 continue
+            

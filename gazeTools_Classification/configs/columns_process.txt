@@ -1,0 +1,43 @@
+Recording timestamp
+Computer timestamp
+Project name
+Participant name
+Recording name
+Recording date
+Recording start time
+Recording duration
+Timeline name
+Recording Fixation filter name
+Recording resolution height
+Recording resolution width
+Recording monitor latency
+Eyetracker timestamp
+Gaze point X
+Gaze point Y
+Gaze point left X
+Gaze point left Y
+Gaze point right X
+Gaze point right Y
+Gaze direction left X
+Gaze direction left Y
+Gaze direction left Z
+Gaze direction right X
+Gaze direction right Y
+Gaze direction right Z
+Pupil diameter left
+Pupil diameter right
+Validity left
+Validity right
+Eye position left X (DACSmm)
+Eye position left Y (DACSmm)
+Eye position left Z (DACSmm)
+Eye position right X (DACSmm)
+Eye position right Y (DACSmm)
+Eye position right Z (DACSmm)
+Gaze point left X (DACSmm)
+Gaze point left Y (DACSmm)
+Gaze point right X (DACSmm)
+Gaze point right Y (DACSmm)
+Eye movement type
+Fixation point X
+Fixation point Y

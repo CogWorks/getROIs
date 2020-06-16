@@ -1,12 +1,13 @@
 class GazeLog:
     def __init__(self):
-        self.__subjectID = ""       #e.g. 19CTWC007
-        self.__sessionNum = 0       #Identifier for which gaze recording in the study this is (usually unneeded for popstudy)
-        self.__gameNum = 0          #Identifier for which game in the study this is
-        self.__timeStamp = []       #list of timestamps
-        self.__gazeX = []           #time series of X gaze coords
-        self.__gazeY = []           #time series of Y gaze coords
-        self.__gazeZ = []           #time series of Z gaze coords
+        self.__subjectID = ""       # e.g. 19CTWC007
+        self.__date = 0             # Identifier for which gaze recording in the study this is (usually unneeded for popstudy)
+        self.__startTime = 0        # Identifier for which game in the study this is
+        self.__timeStamp = []       # list of timestamps
+        self.__gazeX = []           # time series of X gaze coords
+        self.__gazeY = []           # time series of Y gaze coords
+        self.__gazeZ = []           # time series of Z gaze coords
+        self.__gazeClass = []       # saccade/fixation/...
         
 
     def get_subjectID(self):
@@ -15,17 +16,17 @@ class GazeLog:
     def set_subjectID(self, subjectID):
         self.__subjectID = subjectID
 
-    def get_sessionNum(self):
-        return self.__sessionNum
+    def get_date(self):
+        return self.__date
 
-    def set_sessionNum(self, sessionNum):
-        self.__sessionNum = sessionNum
+    def set_date(self, date):
+        self.__date = date
 
-    def get_gameNum(self):
-        return self.__gameNum
+    def get_startTime(self):
+        return self.__startTime
 
-    def set_gameNum(self, gameNum):
-        self.__gameNum = gameNum
+    def set_startTime(self, startTime):
+        self.__startTime = startTime
 
     def get_timeStamp(self):
         return self.__timeStamp
@@ -50,3 +51,9 @@ class GazeLog:
 
     def set_gazeZ(self, gazeZ):
         self.__gazeZ = gazeZ
+
+    def get_gazeClass(self):
+        return self.__gazeClass
+
+    def set_gazeClass(self, gazeClass):
+        self.__gazeClass = gazeClass

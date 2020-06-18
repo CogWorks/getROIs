@@ -26,13 +26,15 @@ import os
 
 from Library.Parsers.GazeParsers.Tobii_gazeTools_CSV_Parser import GazeParser
 from Library.Parsers.GameParsers.Meta2_SQL_Parser import GameParser
-# from Library.Parsers.OtherParsers import CTWC19_SyncFile_Parser as syncParser
+from Library.Parsers.OtherParsers.CTWC19_SyncFile_Parser import SycnParser
 
 
 def getClassifications():
     count = 0
     gazeParser = GazeParser()
     gameParser = GameParser()
+    syncParser = SycnParser("/CogWorks/cwl-data/Active_Projects/Tetris/External_Tournaments/CTWC19/meta-two/")
+    # syncParser.parse("/CogWorks/cwl-data/Active_Projects/Tetris/External_Tournaments/CTWC19/meta-two/")
     for inFile in os.scandir(sourcePath):
         count += 1
         if (inFile.is_file() and inFile.path.endswith(gazeData_fileType)):
@@ -41,10 +43,25 @@ def getClassifications():
             if gazeData == None:
                 continue
             # gameID = gameParser.get_gameID(Event_Identifier, subID, gameNum, sessNum)
-            gameData = gameParser.parse(count, gameData_colNames)
-            if gameData == None:
-                continue
-            # syncData = syncParser.parse(ECID, subID, gameNum, sessNum)
-            print("Processing complete")
+            # gameData = gameParser.parse(count, gameData_colNames)
+            # if gameData == None:
+            #     continue
+            gameFile_path = syncParser.get_filePath_from_eyetrackerTime(gazeData.timeStamp)
+            print(gameFile_path)
+            print("Processing file complete")
+
+
 
 getClassifications()
+
+
+
+
+
+def testFunc():
+    from Library.Parsers.OtherParsers.CTWC19_SyncFile_Parser import SycnParser
+    new = SycnParser()
+    new.parse("/CogWorks/cwl-data/Active_Projects/Tetris/External_Tournaments/CTWC19/meta-two/")
+
+
+# testFunc()

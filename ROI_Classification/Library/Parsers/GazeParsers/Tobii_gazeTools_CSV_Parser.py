@@ -20,11 +20,11 @@ class GazeParser:
             gazeData.subjectID = fileContent[colNames[0]][0]
             gazeData.date = fileContent[colNames[2]][0]
             gazeData.startTime = fileContent[colNames[2]][0]
-            gazeData.timeStamp = fileContent[colNames[3]]
-            gazeData.gazeX = fileContent[colNames[4]]
-            gazeData.gazeY = fileContent[colNames[5]]
-            gazeData.gazeZ = fileContent[colNames[6]]
-            gazeData.gazeClass = fileContent[colNames[7]]
+            gazeData.timeStamp = fileContent[colNames[3]].tolist()
+            gazeData.gazeX = fileContent[colNames[4]].tolist()
+            gazeData.gazeY = fileContent[colNames[5]].tolist()
+            gazeData.gazeZ = fileContent[colNames[6]].tolist()
+            gazeData.gazeClass = fileContent[colNames[7]].tolist()
         else:
             print("Could not read file: ", gazeFile, ".")
             return None

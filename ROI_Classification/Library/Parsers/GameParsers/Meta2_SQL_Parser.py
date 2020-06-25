@@ -15,20 +15,19 @@ class GameParser:
 
 
         def parse(self, gameID, colNames):
+                print("Getting game metadata.")
                 metaData_Query = "SELECT * FROM GameSummaries WHERE gameID = " + str(gameID)
                 metaData_DF = pd.read_sql(metaData_Query, self.dbConnection)
                 print("Got game metadata.")
-                # print(metaData_DF.columns)
 
+                print("Getting game data.")
                 gameData_Query = "SELECT ts, system_ticks, board_rep, zoid_rep\
                         FROM GameLogs WHERE gameID = " + str(gameID)
                 game_DF = pd.read_sql(gameData_Query, self.dbConnection)
                 print("Got game data.")
-                # print(game_DF.columns)
 
                 gameData = GameLog()
                 gameData.subjectID = metaData_DF[colNames[0]][0]
-                print(gameData.subjectID)
                 gameData.sessionNum = metaData_DF[colNames[1]][0]
                 gameData.gameNum = metaData_DF[colNames[2]][0]
                 gameData.resolution = metaData_DF[colNames[3]][0]
@@ -40,16 +39,42 @@ class GameParser:
                 return gameData
 
 
-        def get_gameID(self):
-                pass
-                gameID_Query = "SELECT gameID FROM GameSummaries WHERE gameID = " + str(gameID)
+        def get_gameID_fromInformation(self, Event_Identifier, subID, gameNum, sessNum):
+                print("This function does not work")
+                return None
+                gameID_Query = "SELECT gameID FROM GameSummaries WHERE ... = " + str(gameID)
                 metaData_DF = pd.read_sql(gameID_Query, self.dbConnection)
                 print(type(metaData_DF))
-                # if #Check if gameID for provided details exist, if not continue to next file:
+                # if #Check if gameID for provided details exist, if not return None:
 
                 # else:
                 #         print("No data for subject: ", subjectID, ", Game: ", gameNum, ", Session: ", sessionNum)
                 #         return None
+
+
+        # Parameters:
+        # syncfile_path: The path where the sync file exsts, the data from game files in that directory will be returned
+        # gameID_columnName: The name of the column containing gameID in the database 
+        # root_dir: The root directory containing all game files relevant to current analysis. Ex: CTWC19
+        def get_gameID_fromFilePath(self, syncfile_path, gameID_columnName, root_dir):
+                # Begin the path from the Tetris directory and en at experiment directory
+                experiment_path = syncfile_path.split('/')
+                experiment_path = '/'.join(experiment_path[experiment_path.index(root_dir):-1])
+                # Find all entries that have the path as substring
+                experiment_path = '%%'+experiment_path+'%%'
+                gameID_Query = "SELECT " + gameID_columnName + " FROM GameSummaries WHERE filePath LIKE '" + str(experiment_path) + "'"
+                gameID_DF = pd.read_sql(gameID_Query, self.dbConnection)
+                if gameID_DF.shape[0] == 0:
+                        print("There were no entries corresponding to path: \n", experiment_path)
+                        return None
+                else:
+                        print("Got game IDs")
+                        return gameID_DF[gameID_columnName].tolist()
+                # if #Check if gameID for provided details exist, if not return None:
+
+                # else:
+                #         print("No data for subject: ", subjectID, ", Game: ", gameNum, ", Session: ", sessionNum)
+                #         
 
 
         def get_DBconnection(self):

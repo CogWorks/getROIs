@@ -36,19 +36,30 @@ def getClassifications():
     syncParser = SycnParser("/CogWorks/cwl-data/Active_Projects/Tetris/External_Tournaments/CTWC19/meta-two/")
     # syncParser.parse("/CogWorks/cwl-data/Active_Projects/Tetris/External_Tournaments/CTWC19/meta-two/")
     for inFile in os.scandir(sourcePath):
-        count += 1
         if (inFile.is_file() and inFile.path.endswith(gazeData_fileType)):
-            print("Processing game corresponding to file: ", inFile.path.split("/")[-1])
+            print("Processing data corresponding to gaze file: \n", inFile.path.split("/")[-1])
+            count += 1
             gazeData = gazeParser.parse(inFile.path, gazeData_fileType, gazeData_delimeter, gazeData_colNames)
             if gazeData == None:
                 continue
-            # gameID = gameParser.get_gameID(Event_Identifier, subID, gameNum, sessNum)
-            # gameData = gameParser.parse(count, gameData_colNames)
-            # if gameData == None:
-            #     continue
-            gameFile_path = syncParser.get_filePath_from_eyetrackerTime(gazeData.timeStamp)
-            print(gameFile_path)
-            print("Processing file complete")
+            experimentFile_paths = syncParser.get_filePath_from_eyetrackerTime(gazeData.timeStamp, gazeData.subjectID)
+            if gazeData == None:
+                continue
+            # elif len(experimentFile_paths)>1:
+            #     print("Has more than one associated expeiment:\n", experimentFile_paths)
+            for path in experimentFile_paths:     # Some gaze data corresponds to multiple experiments
+                # gameIDs = gameParser.get_gameID_fromInformation(Event_Identifier, subID, gameNum, sessNum)
+                gameIDs = gameParser.get_gameID_fromFilePath(path, 'gameID', 'CTWC19')
+                if gameIDs == None:
+                    continue
+                for ID in gameIDs:
+                    gameData = gameParser.parse(ID, gameData_colNames)
+                    if gameData == None:
+                        continue
+                    # combinedDF = utils.combineData(gameData, syncParser.get_data_from_path(path), gazeData)
+                    ## Add function to combine game and gaze data to one dataframe here
+                    ## Add ROI funtions here
+            print("Processing ", count, " files complete...")
 
 
 

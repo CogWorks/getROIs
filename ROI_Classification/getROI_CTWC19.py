@@ -27,6 +27,8 @@ import os
 from Library.Parsers.GazeParsers.Tobii_gazeTools_CSV_Parser import GazeParser
 from Library.Parsers.GameParsers.Meta2_SQL_Parser import GameParser
 from Library.Parsers.OtherParsers.CTWC19_SyncFile_Parser import SycnParser
+from Library.Utilities.CTWC19_Utils import alignData_GameGaze as align
+# from Library.ROI_Codes.GenerateROI import generateROI
 
 
 def getClassifications():
@@ -34,21 +36,24 @@ def getClassifications():
     gazeParser = GazeParser()
     gameParser = GameParser()
     syncParser = SycnParser("/CogWorks/cwl-data/Active_Projects/Tetris/External_Tournaments/CTWC19/meta-two/")
-    # syncParser.parse("/CogWorks/cwl-data/Active_Projects/Tetris/External_Tournaments/CTWC19/meta-two/")
+    # Loop through all gaze files in the directory
     for inFile in os.scandir(sourcePath):
         if (inFile.is_file() and inFile.path.endswith(gazeData_fileType)):
             print("Processing data corresponding to gaze file: \n", inFile.path.split("/")[-1])
             count += 1
+            # Parse the gaze file and get gaze object with all information
             gazeData = gazeParser.parse(inFile.path, gazeData_fileType, gazeData_delimeter, gazeData_colNames)
             if gazeData == None:
                 continue
+            # Get file paths of all experiments corresponding to the gaze file (generally 1)
             experimentFile_paths = syncParser.get_filePath_from_eyetrackerTime(gazeData.timeStamp, gazeData.subjectID)
             if gazeData == None:
                 continue
             # elif len(experimentFile_paths)>1:
             #     print("Has more than one associated expeiment:\n", experimentFile_paths)
-            for path in experimentFile_paths:     # Some gaze data corresponds to multiple experiments
-                # gameIDs = gameParser.get_gameID_fromInformation(Event_Identifier, subID, gameNum, sessNum)
+            # Loop through each experiment
+            for path in experimentFile_paths:
+                # Get IDs for all games in that experiment
                 gameIDs = gameParser.get_gameID_fromFilePath(path, 'gameID', 'CTWC19')
                 if gameIDs == None:
                     continue
@@ -56,9 +61,8 @@ def getClassifications():
                     gameData = gameParser.parse(ID, gameData_colNames)
                     if gameData == None:
                         continue
-                    # combinedDF = utils.combineData(gameData, syncParser.get_data_from_path(path), gazeData)
-                    ## Add function to combine game and gaze data to one dataframe here
-                    ## Add ROI funtions here
+                    # combinedDF = align(gameData, syncParser.get_data_from_path(path), gazeData)
+                    # ROIs = generateROI(combinedDF)
             print("Processing ", count, " files complete...")
 
 

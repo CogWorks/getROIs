@@ -27,10 +27,10 @@ class GameParser:
                 print("Got game data.")
 
                 gameData = GameLog()
-                gameData.subjectID = metaData_DF[colNames[0]][0]
-                gameData.sessionNum = metaData_DF[colNames[1]][0]
-                gameData.gameNum = metaData_DF[colNames[2]][0]
-                gameData.resolution = metaData_DF[colNames[3]][0]
+                gameData.subjectID = metaData_DF[colNames[0]].iloc[0]
+                gameData.sessionNum = metaData_DF[colNames[1]].iloc[0]
+                gameData.gameNum = metaData_DF[colNames[2]].iloc[0]
+                gameData.resolution = metaData_DF[colNames[3]].iloc[0]
                 gameData.timeStamp = game_DF[colNames[4]].tolist()
                 gameData.System_timeStamp = game_DF[colNames[5]].tolist()
                 gameData.boardRep = game_DF[colNames[6]].tolist()

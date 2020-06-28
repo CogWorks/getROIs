@@ -15,16 +15,22 @@ class GazeParser:
     #   colNames: Names of columns (list) in the file, corresponding to the data [should maintain order]
     def parse(self, gazeFile, fileExtension, delimeter, colNames):
         if (gazeFile.endswith(fileExtension)):
-            fileContent = pd.read_csv(gazeFile, sep=delimeter)
+            gazeDF = pd.read_csv(gazeFile, sep=delimeter)
+            # Find and delete rows with timestamp = 0, these donot have any data
+            print("Shape before removal:", gazeDF.shape)
+            noData_indices = gazeDF[gazeDF[colNames[3]] == 0 ].index
+            gazeDF.drop(noData_indices , inplace=True)
+            print("Shape after removal:", gazeDF.shape)
+            
             gazeData = GazeLog()
-            gazeData.subjectID = fileContent[colNames[0]][0]
-            gazeData.date = fileContent[colNames[2]][0]
-            gazeData.startTime = fileContent[colNames[2]][0]
-            gazeData.timeStamp = fileContent[colNames[3]].tolist()
-            gazeData.gazeX = fileContent[colNames[4]].tolist()
-            gazeData.gazeY = fileContent[colNames[5]].tolist()
-            gazeData.gazeZ = fileContent[colNames[6]].tolist()
-            gazeData.gazeClass = fileContent[colNames[7]].tolist()
+            gazeData.subjectID = gazeDF[colNames[0]].iloc[0]
+            gazeData.date = gazeDF[colNames[2]].iloc[0]
+            gazeData.startTime = gazeDF[colNames[2]].iloc[0]
+            gazeData.timeStamp = gazeDF[colNames[3]].tolist()
+            gazeData.gazeX = gazeDF[colNames[4]].tolist()
+            gazeData.gazeY = gazeDF[colNames[5]].tolist()
+            gazeData.gazeZ = gazeDF[colNames[6]].tolist()
+            gazeData.gazeClass = gazeDF[colNames[7]].tolist()
         else:
             print("Could not read file: ", gazeFile, ".")
             return None

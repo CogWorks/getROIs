@@ -29,8 +29,9 @@ import numpy as np
 from Library.Parsers.GazeParsers.Tobii_gazeTools_CSV_Parser import GazeParser
 from Library.Parsers.GameParsers.Meta2_SQL_Parser import GameParser
 from Library.Parsers.OtherParsers.CTWC19_SyncFile_Parser import SycnParser
-from Library.Utilities.CTWC19_Utils import alignData_GameGaze as align
-# from Library.ROI_Codes.GenerateROI import generateROI
+from Library.Tetris.Utilities.CTWC19_Utils import alignData_GameGaze as align
+from Library.ROI_Codes.GenerateROI import GetROI_Meta2
+GetROI_Obj = GetROI_Meta2()
 
 
 def getClassifications():
@@ -87,8 +88,14 @@ def getClassifications():
                 if gameData == None:
                     continue
                 combinedDF = align(gameData, gazeData, startTime_millisecond)
-                # ROIs = generateROI(combinedDF, syncDelayTolerance)
+                dynamicObjectColumns = ["gazeX", "gazeY", "gazeZ", "gazeClass"]
+                gazeInformationColumns = ["boardRep", "zoidRep"]
+                ROI_DF = GetROI_Obj.generateROIClassification(combinedDF, dynamicObjectColumns, gazeInformationColumns, syncDelayTolerance=0)
             print("Processing ", count, " files complete...")
+
+
+
+
 
 
 

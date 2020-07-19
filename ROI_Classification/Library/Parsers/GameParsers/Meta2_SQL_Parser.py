@@ -4,7 +4,9 @@ import pymysql
 
 import pandas as pd
 import numpy as np
-from ...DataClasses.GameLog import GameLog
+from ast import literal_eval
+
+from ...Tetris.DataClasses.GameLog import GameLog\
 
 
 
@@ -36,8 +38,9 @@ class GameParser:
                 # Convert timestamp to milliseconds
                 gameData.timeStamp = list(np.ceil(np.array(game_DF[colNames[4]].tolist()) * 1000))
                 gameData.System_timeStamp = game_DF[colNames[5]].tolist()
-                gameData.boardRep = game_DF[colNames[6]].tolist()
-                gameData.zoidRep = game_DF[colNames[7]].tolist()
+                # literal_eval converts strings of list representation, to python lists
+                gameData.boardRep = [literal_eval(x) if x is not None else None for x in game_DF[colNames[6]].tolist()]
+                gameData.zoidRep = [literal_eval(x) if x is not None else None for x in game_DF[colNames[7]].tolist()]
 
                 return gameData
 

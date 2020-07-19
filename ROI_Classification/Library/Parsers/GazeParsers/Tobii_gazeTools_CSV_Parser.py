@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from ...DataClasses.GazeLog import GazeLog
+from ...Tetris.DataClasses.GazeLog import GazeLog
 
 class GazeParser:
     def __init__(self):

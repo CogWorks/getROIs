@@ -2,7 +2,7 @@ from .ROI_Logic import ROI_Classifier
 
 from pathlib import Path
 import json
-from scipy import sparse
+import numpy as np
 
 class GetROI_Meta2:
     """
@@ -17,7 +17,7 @@ class GetROI_Meta2:
     """
     def __init__(self):
         # Open JSON file containing bounding coordinates of static elements in the environment
-        path = Path(__file__).parent / "../Tetris/Environment/Meta2Properties.json"
+        path = Path(__file__).parent / "../Environment/Tetris/Meta2/Meta2Properties.json"
         self.regionBoundsDict = json.load(path.open())
         # Create a classifier object for all games
         self.ClassifierObj = ROI_Classifier(self.regionBoundsDict, ["nextBox", "score", "level", "linesCleared"])
@@ -48,21 +48,24 @@ class GetROI_Meta2:
         else:
             self.currRepresentation = representation
 
-        # Create local variable for performence
+        # Get rid of all '0' elements
+        # sparseRepresentation = sparse.csr_matrix(representation)
+
+        # (nonEmpty_rows, nonEmpty_cols) = sparseRepresentation.nonzero()
+        (nonEmpty_rows, nonEmpty_cols) = np.array(representation).nonzero()
+        if len(nonEmpty_cols) == 0 or len(nonEmpty_rows) == 0:
+            # Cases when board is empty, due to all lines cleared
+            self.currBounds = [(0, 0), (0, 0)]
+            return self.currBounds
+
+        # Create local variable for efficiency
         blockSize = self.blockSize
         startCoordinates = self.startCoordinates
 
-        # Get rid of all '0' elements
-        sparseRepresentation = sparse.csr_matrix(representation)
-
-        (nonEmpty_rows, nonEmpty_cols) = sparseRepresentation.nonzero()
-        if len(nonEmpty_cols) == 0 or len(nonEmpty_rows) == 0:
-            # Cases when board is empty, due to all lines cleared
-            return
-        left_border = max((min(nonEmpty_cols) - 2) * blockSize, 0)
-        right_border = min((max(nonEmpty_cols) + 1) * blockSize, self.boardWidth)
-        top_border = max((min(nonEmpty_rows) - 2) * blockSize, 0)
-        bottom_border = min((max(nonEmpty_rows) + 1) * blockSize, self.boardHeight)
+        left_border = max((min(nonEmpty_cols) - 1) * blockSize, 0)
+        right_border = min((max(nonEmpty_cols) + 2) * blockSize, self.boardWidth)
+        top_border = max((min(nonEmpty_rows) - 1) * blockSize, 0)
+        bottom_border = min((max(nonEmpty_rows) + 2) * blockSize, self.boardHeight)
 
         bound_topLeft = (startCoordinates[0] + left_border, startCoordinates[1] + top_border)
         bound_bottomRight = (startCoordinates[0] + right_border, startCoordinates[1] + bottom_border)

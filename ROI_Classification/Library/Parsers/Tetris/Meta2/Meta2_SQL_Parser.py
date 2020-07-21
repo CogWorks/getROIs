@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 from ast import literal_eval
 
-from ...Tetris.DataClasses.GameLog import GameLog\
+from ....DataClasses.Tetris.Meta2.GameLog import GameLog
 
 
 

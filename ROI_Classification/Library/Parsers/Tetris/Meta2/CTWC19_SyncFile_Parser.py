@@ -4,7 +4,8 @@
 
 import os
 import pandas as pd
-from ...Tetris.DataClasses.SyncLog import SyncLog
+
+from ....DataClasses.Tetris.Meta2.SyncLog import SyncLog
 
 class SycnParser:
     def __init__(self, base_dir):

@@ -16,10 +16,9 @@ import pandas as pd
 import numpy as np
 
 from Library.Parsers.GazeParsers.Tobii_gazeTools_CSV_Parser import GazeParser
-from Library.Parsers.GameParsers.Meta2_SQL_Parser import GameParser
-from Library.Parsers.OtherParsers.CTWC19_SyncFile_Parser import SycnParser
-from Library.Tetris.Utilities.CTWC19_Utils import alignData_GameGaze_upsample as align
-from Library.ROI_Codes.GenerateROI import GetROI_Meta2
+from Library.Parsers.Tetris.Meta2.Meta2_SQL_Parser import GameParser
+from Library.Utilities.Tetris.Meta2.CTWC19_Utils import alignData_GameGaze_upsample as align
+from Library.ROI_Codes.GenerateROI_Meta2 import GetROI_Meta2
 GetROI_Obj = GetROI_Meta2()
 
 

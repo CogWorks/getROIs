@@ -24,14 +24,14 @@ properties = {}
 
 properties["resolution_width"] = 1920
 properties["resolution_height"] = 1080
-properties["block_side_length"] = 50
-properties["board"] = {"TopLeft": (665, 0), "BottomRight": (1305, 1080)}
-properties["nextBox"] = {"TopLeft": (1435, 170), "BottomRight": (1820, 630)}
+properties["block_side_length"] = 52
+properties["board"] = {"TopLeft": (725, 20), "BottomRight": (1245, 1060)}
+properties["nextBox"] = {"TopLeft": (1450, 170), "BottomRight": (1800, 620)}
 properties["score"] = {"TopLeft": (145, 175), "BottomRight": (405, 370)}
 properties["level"] = {"TopLeft": (145, 370), "BottomRight": (405, 565)}
-properties["lines"] = {"TopLeft": (145, 565), "BottomRight": (405, 760)}
+properties["linesCleared"] = {"TopLeft": (145, 565), "BottomRight": (405, 760)}
 
 import json
 
-with open('../Environment/Meta2Properties.json', 'w') as fp:
+with open('../../../Environment/Tetris/Meta2/Meta2Properties.json', 'w') as fp:
     json.dump(properties, fp)

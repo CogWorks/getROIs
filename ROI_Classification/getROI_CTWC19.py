@@ -85,9 +85,9 @@ def getClassifications():
                 ROI_DF = GetROI_Obj.generateROIClassification(combinedDF, syncDelayTolerance=0)
                 ROI_DF.to_csv(outputLocation + "ROI_" + gameFile.strip(), sep = '\t')
                 print("Processing current game file complete...")
-                print("----------------------------------X---------------------------------------")
 
             print("Processing ", count, " gaze files complete...")
+            print("----------------------------------X---------------------------------------")
 
 
 

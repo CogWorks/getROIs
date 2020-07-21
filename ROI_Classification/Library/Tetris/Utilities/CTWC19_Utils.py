@@ -21,6 +21,7 @@ def valid_Gaze(data):
 
 
 """
+***This module is not tested and may not work***
 Given the game and gaze data, align them in time by removing records from the higher frequency gaze 
 data to downscale the entire data to the lower game frequency
 Parameters:

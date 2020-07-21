@@ -22,9 +22,14 @@ class GetROI_Meta2:
         # Create a classifier object for all games
         self.ClassifierObj = ROI_Classifier(self.regionBoundsDict, ["nextBox", "score", "level", "linesCleared"])
         # Variables necessary for binaryRep_2_boundingCoordinates function
-        self.startCoordinates = self.regionBoundsDict["board"]["TopLeft"]
         self.blockSize = self.regionBoundsDict["block_side_length"]
         self.currBounds = None
+        self.currRepresentation = None
+        boardCoordinates = self.regionBoundsDict["board"]
+        self.boardWidth = boardCoordinates["BottomRight"][0] - boardCoordinates["TopLeft"][0]
+        self.boardHeight = boardCoordinates["BottomRight"][1] - boardCoordinates["TopLeft"][1]
+        # startCoordinates are the coordinates of the top-left corner of the board treated as the origin
+        self.startCoordinates = self.regionBoundsDict["board"]["TopLeft"]
 
     
     """
@@ -36,28 +41,33 @@ class GetROI_Meta2:
     :return: The top-left and bottom-right corner coordinates for the bounding box of the zoid or filled board regions.
     """
     def binaryRep_2_boundingCoordinates(self, representation):
-        if representation == None:
+        # If empty or repeated representation return previous result
+        if representation == None or representation == self.currRepresentation:
             # print("Got empty representation")
             return self.currBounds
-            # return
+        else:
+            self.currRepresentation = representation
+
+        # Create local variable for performence
+        blockSize = self.blockSize
+        startCoordinates = self.startCoordinates
 
         # Get rid of all '0' elements
         sparseRepresentation = sparse.csr_matrix(representation)
 
-        nonEmpty_rows = sparseRepresentation.nonzero()[0].tolist()
-        nonEmpty_cols = sparseRepresentation.nonzero()[1].tolist()
+        (nonEmpty_rows, nonEmpty_cols) = sparseRepresentation.nonzero()
         if len(nonEmpty_cols) == 0 or len(nonEmpty_rows) == 0:
             # Cases when board is empty, due to all lines cleared
             return
-        left_border = max((min(nonEmpty_cols) - 1) * self.blockSize, 0)
-        right_border = min((max(nonEmpty_cols) + 1) * self.blockSize, self.regionBoundsDict["resolution_width"])
-        top_border = max((min(nonEmpty_rows) - 1) * self.blockSize, 0)
-        bottom_border = min((max(nonEmpty_rows) + 1) * self.blockSize, self.regionBoundsDict["resolution_height"])
+        left_border = max((min(nonEmpty_cols) - 2) * blockSize, 0)
+        right_border = min((max(nonEmpty_cols) + 1) * blockSize, self.boardWidth)
+        top_border = max((min(nonEmpty_rows) - 2) * blockSize, 0)
+        bottom_border = min((max(nonEmpty_rows) + 1) * blockSize, self.boardHeight)
 
-        topLeft_bound = (self.startCoordinates[0] + left_border, self.startCoordinates[1] + top_border)
-        bottomRight_bound = (self.startCoordinates[0] + right_border, self.startCoordinates[1] + bottom_border)
+        bound_topLeft = (startCoordinates[0] + left_border, startCoordinates[1] + top_border)
+        bound_bottomRight = (startCoordinates[0] + right_border, startCoordinates[1] + bottom_border)
 
-        self.currBounds = [topLeft_bound, bottomRight_bound]
+        self.currBounds = [bound_topLeft, bound_bottomRight]
         return self.currBounds
 
 

@@ -27,6 +27,6 @@ source("Gazetools_Classification_Script.R")
 data_folder <- "/CogWorks/cwl-data/Active_Projects/Tetris/External_Tournaments/CTWC19/Tobii-LabPro/CTWC19_labpro_dataexport/"
 ouput_location <- "/CogWorks/cwl-data/Active_Projects/Tetris/Workspaces/Banerjee/Gaze_Stuff/R_Files/Gaze_Outputs/CTWC19/"
 input_files <- list.files(path=data_folder, pattern="*.tsv", full.names=TRUE, recursive=FALSE)
-gazetools_outputColumns <- c("timestamp", "time", "x", "y", "class")
+gazetools_outputColumns <- c("timestamp", "time", "x", "y", "class", "event_ids")
 loop_through_files(input_files, ouput_location, gazetools_outputColumns)
 

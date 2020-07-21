@@ -8,6 +8,7 @@ class GazeLog:
         self.__gazeY = []           # time series of Y gaze coords
         self.__gazeZ = []           # time series of Z gaze coords
         self.__gazeClass = []       # saccade/fixation/...
+        self.__eventID = []         # The event identifier for how many times gaze class changed
         
 
     def get_subjectID(self):
@@ -57,3 +58,9 @@ class GazeLog:
 
     def set_gazeClass(self, gazeClass):
         self.__gazeClass = gazeClass
+
+    def get_eventID(self):
+        return self.__eventID
+
+    def set_eventID(self, eventID):
+        self.__eventID = eventID

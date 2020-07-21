@@ -32,7 +32,31 @@ class GazeParser:
             gazeData.gazeX = gazeDF[colNames[4]].tolist()
             gazeData.gazeY = gazeDF[colNames[5]].tolist()
             gazeData.gazeZ = gazeDF[colNames[6]].tolist()
-            gazeData.gazeClass = gazeDF[colNames[7]].tolist()
+            gazeData.gazeClass = gazeDF[colNames[7]].str.lower().tolist()
+            gazeData.eventID = gazeDF[colNames[8]].tolist()
+
+            # # Split data into periods of fixations
+            # from itertools import groupby
+            # tempList1 = gazeData.gazeClass[20212 : 75113]
+            # tempList2 = gazeData.eventID[20212 : 75113]
+            # curr_Index = 0
+            # fixationPeriods = []
+            # append = fixationPeriods.append
+            # for currPeriod, periodChunk in groupby(tempList1):
+            #     periodChunk_len = len(list(periodChunk))
+            #     if currPeriod.lower() == 'fixation':
+            #         # Divide each fixation chunk into multiple events (each for a different fixation), if exists
+            #         subEvents = tempList2[curr_Index : (curr_Index + (periodChunk_len - 1))]
+            #         for currSubperiod, subperiodChunk in groupby(subEvents):
+            #             subperiodChunk_len = len(list(subperiodChunk))
+            #             if subperiodChunk_len > 2:
+            #                 append((curr_Index, (curr_Index + (subperiodChunk_len - 1))))
+            #             curr_Index += subperiodChunk_len
+            #         continue
+            #     curr_Index += periodChunk_len
+            # print(len(fixationPeriods))
+            # # print(fixationPeriods)
+            
         else:
             print("Could not read file: ", gazeFile, ".")
             return None

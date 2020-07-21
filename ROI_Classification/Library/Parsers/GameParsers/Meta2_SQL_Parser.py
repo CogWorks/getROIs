@@ -19,17 +19,18 @@ class GameParser:
 
 
         def parse(self, gameID, colNames):
-                print("Getting game metadata.")
+                print("Fetching game metadata from SQL server.")
                 metaData_Query = "SELECT * FROM GameSummaries WHERE gameID = " + str(gameID)
                 metaData_DF = pd.read_sql(metaData_Query, self.dbConnection)
                 print("Got game metadata.")
 
-                print("Getting game data.")
+                print("Fetching game data from SQL server.")
                 gameData_Query = "SELECT ts, system_ticks, board_rep, zoid_rep\
                         FROM GameLogs WHERE gameID = " + str(gameID)
                 game_DF = pd.read_sql(gameData_Query, self.dbConnection)
                 print("Got game data.")
 
+                print("Processing game data")
                 gameData = GameLog()
                 gameData.subjectID = metaData_DF[colNames[0]].iloc[0]
                 gameData.sessionNum = metaData_DF[colNames[1]].iloc[0]
@@ -38,9 +39,10 @@ class GameParser:
                 # Convert timestamp to milliseconds
                 gameData.timeStamp = list(np.ceil(np.array(game_DF[colNames[4]].tolist()) * 1000))
                 gameData.System_timeStamp = game_DF[colNames[5]].tolist()
-                # literal_eval converts strings of list representation, to python lists
-                gameData.boardRep = [literal_eval(x) if x is not None else None for x in game_DF[colNames[6]].tolist()]
-                gameData.zoidRep = [literal_eval(x) if x is not None else None for x in game_DF[colNames[7]].tolist()]
+                # literal_eval converts strings of list representation, to python lists | fillna is called to avoid errors for empty rows
+                gameData.boardRep = game_DF[colNames[6]].fillna(value='None', inplace=False).apply(literal_eval).tolist()
+                gameData.zoidRep = game_DF[colNames[7]].fillna(value='None', inplace=False).apply(literal_eval).tolist()
+                print("Processing complete.")
 
                 return gameData
 

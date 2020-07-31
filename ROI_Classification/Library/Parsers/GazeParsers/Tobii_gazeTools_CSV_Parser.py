@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from ...DataClasses.Tetris.Meta2.GazeLog import GazeLog
+from ...DataClasses.Tobii.GazeLog import GazeLog
 
 class GazeParser:
     def __init__(self):
@@ -56,6 +56,9 @@ class GazeParser:
             #     curr_Index += periodChunk_len
             # print(len(fixationPeriods))
             # # print(fixationPeriods)
+
+            print("Got Gaze Data")
+            print(len(gazeData.timeStamp), " Records found")
             
         else:
             print("Could not read file: ", gazeFile, ".")

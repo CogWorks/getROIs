@@ -46,9 +46,11 @@ def getClassifications():
             if gazeData == None:
                 continue
 
-            currSyncInfo = syncFile[(syncFile.GazeFile == inFile.path.split("/")[-1].strip().split(' ')[1]) & \
-                                    (syncFile.GameFile.str.contains(inFile.path.split("/")[-1].strip().split(' ')[2])) & \
+            currSyncInfo = syncFile[(syncFile.GazeFile == inFile.path.split("/")[-1].strip().split()[1]) & \
+                                    (syncFile.GameFile.str.contains(inFile.path.split("/")[-1].strip().split()[2])) & \
                                     (syncFile.Comments != 'Bad Data') & (syncFile.Comments != 'No Gaze Data') & (syncFile.Comments != 'Test Data')]
+
+
             if currSyncInfo.shape[0] == 0:
                 # If no ecords exist skip file
                 print("The game contains bad gaze-data or is test data")
@@ -62,8 +64,8 @@ def getClassifications():
                 startTime = currGame['Gaze Data Start Time']
                 startTime_millisecond = ((((startTime.hour * 60) + startTime.minute) * 60 + startTime.second) * 1000) + (startTime.microsecond / 1000)
 
-                # Debugging stuff
-                # if not gameFile.strip() == "19CTWC016_2019-10-19_07-57-46_classic-tetris_zerotillnineteen.tsv":
+                # # Debugging stuff
+                # if not gameFile.strip() == "19CTWC015_2019-10-20_04-25-29_nonxbo_shortstart.env_ninetillend.tsv":
                 #     continue
 
                 # Get ID for the game

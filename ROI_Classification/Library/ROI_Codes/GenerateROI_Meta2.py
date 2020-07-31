@@ -20,7 +20,8 @@ class GetROI_Meta2:
         path = Path(__file__).parent / "../Environment/Tetris/Meta2/Meta2Properties.json"
         self.regionBoundsDict = json.load(path.open())
         # Create a classifier object for all games
-        self.ClassifierObj = ROI_Classifier(self.regionBoundsDict, ["nextBox", "score", "level", "linesCleared"])
+        self.ClassifierObj = ROI_Classifier(self.regionBoundsDict, ["nextBox", "score", "level", "linesCleared"], \
+                                            ['zoid', 'pile'])
         # Variables necessary for binaryRep_2_boundingCoordinates function
         self.blockSize = self.regionBoundsDict["block_side_length"]
         self.currBounds = None
@@ -29,6 +30,7 @@ class GetROI_Meta2:
         self.boardWidth = boardCoordinates["BottomRight"][0] - boardCoordinates["TopLeft"][0]
         self.boardHeight = boardCoordinates["BottomRight"][1] - boardCoordinates["TopLeft"][1]
         # startCoordinates are the coordinates of the top-left corner of the board treated as the origin
+        # for the dynamic regions
         self.startCoordinates = self.regionBoundsDict["board"]["TopLeft"]
 
     

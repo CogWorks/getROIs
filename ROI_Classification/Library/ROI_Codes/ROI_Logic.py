@@ -23,21 +23,25 @@ class ROI_Classifier:
 								names of static regions as keys each of which have dictionaries as values with keys \
 								'TopLeft' & 'BottomRight' each with a tuple values of the (X,Y) corrdinates of the two \
 								corners of the object.
-	:param staticRegionNames: key values of the static regions in staticRegionsDict.
+	:param staticRegionPriorityList: key values of the static regions in staticRegionsDict, arranged by priority. Regions \
+									 that come first in the list will be checked first. If the current object belongs to \
+									 multiple regions (in case of nested regions), the earlier one will be reported.
+	:param dynamicRegionPriorityList: column names of the dynamic regions in the data, arranged by priority. Regions \
+									 that come first in the list will be checked first. If the current object belongs to \
+									 multiple regions (in case of nested regions), the earlier one will be reported.
 	Other local-variables:
 	staticPolygonsDict: a dictionary of Polygon objects (from shapely library) for each region of interest
 	"""
-	def __init__(self, staticRegionsDict, staticRegionNames):
-		# self.staticRegionsDict = staticRegionsDict
-		self.staticRegionList = staticRegionNames
+	def __init__(self, staticRegionsDict, staticRegionPriorityList, dynamicRegionPriorityList):
+		self.staticRegionPriorityList = staticRegionPriorityList
+		self.dynamicRegionPriorityList = dynamicRegionPriorityList
 		self.staticPolygonsDict = {}
-		for regionName in staticRegionNames:
+		for regionName in staticRegionPriorityList:
 			top = staticRegionsDict[regionName]["TopLeft"][1]
 			left = staticRegionsDict[regionName]["TopLeft"][0]
 			bottom = staticRegionsDict[regionName]["BottomRight"][1]
 			right = staticRegionsDict[regionName]["BottomRight"][0]
 			self.staticPolygonsDict[regionName] = Polygon([(left, top), (left, bottom), (right, bottom), (right, top)])
-
 
 	"""
 	:param dataDF: Pandas dataframe containing all data
@@ -75,6 +79,11 @@ class ROI_Classifier:
 		totalFixations = len(fixationPeriods)
 		fixationOverlapsFound = 0
 
+		# Change from column name to index for faster retrieval
+		dynamicRegionPriorityIndices = []
+		for regionName in self.dynamicRegionPriorityList:
+			dynamicRegionPriorityIndices.append(dataDF.columns.get_loc(regionName))
+
 		# Classify fixation regions
 		ROI_list = []
 		append = ROI_list.append
@@ -84,9 +93,9 @@ class ROI_Classifier:
 			periodEnd = periodIndices[1]
 
 			# If there's a difference of greater than 20 pixels between fixations, it is likely two different fixations
-			if (abs(modifiedDF.iloc[periodStart]["gazeX"] - modifiedDF.iloc[periodEnd]["gazeX"]) > 20) or \
-				(abs(modifiedDF.iloc[periodStart]["gazeY"] - modifiedDF.iloc[periodEnd]["gazeY"]) > 20):
-					continue
+			# if (abs(modifiedDF.iloc[periodStart]["gazeX"] - modifiedDF.iloc[periodEnd]["gazeX"]) > 20) or \
+			# 	(abs(modifiedDF.iloc[periodStart]["gazeY"] - modifiedDF.iloc[periodEnd]["gazeY"]) > 20):
+			# 		continue
 
 			# Get current gaze location as a shapely point object
 			currGazeLocation = Point(modifiedDF.iloc[periodStart:periodEnd]["gazeX"].mean(axis=0), \
@@ -99,39 +108,39 @@ class ROI_Classifier:
 
 			# Check static regions for overlap
 			inStaticRegion = False
-			for region, regionPolygon in self.staticPolygonsDict.items():
-				if regionPolygon.contains(currGazeLocation):
+			for region in self.staticRegionPriorityList:
+				if self.staticPolygonsDict[region].contains(currGazeLocation):
 					inStaticRegion = True
 					break
 
 			# Check dynamic regions for overlap
 			inDynamicRegion = False
 			if not inStaticRegion:
-				for columnIndex in range(6, len(modifiedDF.columns)):
+				for columnIndex in dynamicRegionPriorityIndices:
 					# Find closest non-Null dynamic-object locations
 					# print(periodStart, periodEnd)
 					currPeriodStart = periodStart
-					while (modifiedDF.iloc[currPeriodStart][columnIndex] is None) and (currPeriodStart < periodEnd):
+					while (modifiedDF.iat[currPeriodStart, columnIndex] is None) and (currPeriodStart < periodEnd):
 						currPeriodStart += 1
 					currPeriodEnd = periodEnd
-					while (modifiedDF.iloc[currPeriodEnd][columnIndex] is None) and (currPeriodEnd > periodStart):
+					while (modifiedDF.iat[currPeriodEnd, columnIndex] is None) and (currPeriodEnd > periodStart):
 						currPeriodEnd -= 1
 					# print(currPeriodStart, currPeriodEnd)
 					if (currPeriodStart >= currPeriodEnd):
 							continue
 					# Check first frame of fixation
-					top = modifiedDF.iloc[currPeriodStart, columnIndex][0][1]
-					left = modifiedDF.iloc[currPeriodStart, columnIndex][0][0]
-					bottom = modifiedDF.iloc[currPeriodStart, columnIndex][1][1]
-					right = modifiedDF.iloc[currPeriodStart, columnIndex][1][0]
+					top = modifiedDF.iat[currPeriodStart, columnIndex][0][1]
+					left = modifiedDF.iat[currPeriodStart, columnIndex][0][0]
+					bottom = modifiedDF.iat[currPeriodStart, columnIndex][1][1]
+					right = modifiedDF.iat[currPeriodStart, columnIndex][1][0]
 					if Polygon([(left, top), (left, bottom), (right, bottom), (right, top)]).contains(currGazeLocation):
 						inDynamicRegion = True
 						break
 					# Check last frame of fixation
-					top = modifiedDF.iloc[currPeriodEnd, columnIndex][0][1]
-					left = modifiedDF.iloc[currPeriodEnd, columnIndex][0][0]
-					bottom = modifiedDF.iloc[currPeriodEnd, columnIndex][1][1]
-					right = modifiedDF.iloc[currPeriodEnd, columnIndex][1][0]
+					top = modifiedDF.iat[currPeriodEnd, columnIndex][0][1]
+					left = modifiedDF.iat[currPeriodEnd, columnIndex][0][0]
+					bottom = modifiedDF.iat[currPeriodEnd, columnIndex][1][1]
+					right = modifiedDF.iat[currPeriodEnd, columnIndex][1][0]
 					if Polygon([(left, top), (left, bottom), (right, bottom), (right, top)]).contains(currGazeLocation):
 						inDynamicRegion = True
 						break

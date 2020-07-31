@@ -43,10 +43,12 @@ class GameParser:
                 gameData.boardRep = game_DF[colNames[6]].fillna(value='None', inplace=False).apply(literal_eval).tolist()
                 gameData.zoidRep = game_DF[colNames[7]].fillna(value='None', inplace=False).apply(literal_eval).tolist()
                 print("Processing complete.")
+                print("Have ", len(gameData.timeStamp)," Records")
 
                 return gameData
 
 
+        # Function never used or checked
         def get_gameID_fromInformation(self, Event_Identifier, subID, gameNum, sessNum):
                 print("This function does not work")
                 return None

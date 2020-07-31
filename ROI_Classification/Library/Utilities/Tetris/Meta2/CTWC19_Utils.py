@@ -109,10 +109,14 @@ def alignData_GameGaze_upsample(gameData, gazeData, startTime):
     endTime = startTime + gameDuration
 
     # Find values closest to estimated start and end times of the game from the gaze data
-    startTimeDifference = list(abs(np.array(gazeData.timeStamp) - startTime))
+    startTimeDifference = abs(np.array(gazeData.timeStamp) - startTime)
     startTimeIndex = np.where(startTimeDifference == np.amin(startTimeDifference))[0][0]
-    endTimeDifference = list(abs(np.array(gazeData.timeStamp) - endTime))
+    endTimeDifference = abs(np.array(gazeData.timeStamp) - endTime)
     endTimeIndex = np.where(endTimeDifference == np.amin(endTimeDifference))[0][0]
+
+    # Debugging stuff
+    # print("Start Time, Game Duration, End Time: ", startTime, ",", gameDuration, ",", endTime)
+    # print("Start Time Index, End Time Index: ", startTimeIndex, ",", endTimeIndex)
 
     currGazeIndex = startTimeIndex
     currGameIndex = 0
@@ -145,7 +149,7 @@ def alignData_GameGaze_upsample(gameData, gazeData, startTime):
         # cumulativeGazeTimeDelta += (timeStamp_gaze[currGazeIndex] - timeStamp_gaze[currGazeIndex - 1])
 
         # Inner loop, for looping through multiple gaze records for each game record
-        while(cumulativeGazeTimeDelta < nextGameFrameTime):
+        while(cumulativeGazeTimeDelta < nextGameFrameTime and currGazeIndex < endTimeIndex):
             count += 1
             cumulativeGazeTimeDelta += (timeStamp_gaze[currGazeIndex] - timeStamp_gaze[currGazeIndex - 1])
             append([timeStamp_game[currGameIndex], timeStamp_gaze[currGazeIndex], gazeData.gazeX[currGazeIndex], gazeData.gazeY[currGazeIndex], \

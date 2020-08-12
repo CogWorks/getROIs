@@ -1,8 +1,8 @@
 # ROI_Classification
 Contains code for combining gaze data (gazetools csv output) and game data to produce ROI classifications.
 
-- The main code (that calls all other packages in the project) should be located at the root (directly under getROIs/ROI_Classification/).
-- You can use 'getROIs/ROI_Classification/getROI_CTWC19.py' as a guide on how to call functions and classes in the project (under the library directory) to perform ROI classification.
+- The main code that should be executed to run the classification (that calls all other packages in the project) should be located at the root (directly under getROIs/ROI_Classification/).
+- You can use 'getROIs/ROI_Classification/getROI_CTWC19.py' as a guide on how to call functions and classes in the project (under the library directory) to perform ROI classification.As the name suggests, it generates classified ROI information for data collected during CTWC19.
 - NOTE: If you contribute to the project and add more code, make sure you are creating the correct package and sub-package structure. And be sure to make it as modular as possible so changes would not requre, modifying any code rather writing one's own module and calling it instead of existing modules.
 
 

@@ -15,10 +15,10 @@ class GazeParser:
       :param delimeter: string for the character separating the values (Ex: '\t' for tab-separated values)
       :param colNames: Names of columns (list) in the file, corresponding to the data [should maintain order]
                        Provide the names of columns (list of strings) containing the following data (in order):
-                       [SubjectID, Recording Date, Recording Start Time, timestamp for events, Gaze X Coordinate, 
+                       [SubjectID, Recording Date, Recording Start Time, timestamp for each frame, Gaze X Coordinate, 
                        Gaze Y Coordinate, Gaze Z Coordinate, Gaze class (fixation/saccade), 
                        Event ID (a new event everytime gaze class changes)]
-      :return: a GazeLog Object
+      :return: a GazeLog class Object
     """
     def parse(self, gazeFile, fileExtension, delimeter, colNames):
         if (gazeFile.endswith(fileExtension)):

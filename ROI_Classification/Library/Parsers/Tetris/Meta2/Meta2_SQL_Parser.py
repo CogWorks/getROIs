@@ -18,6 +18,16 @@ class GameParser:
                 self.dbConnection = sqlEngine.connect()
 
 
+        """
+        This is a parser function that can parse 'seperated value' files (Ex: csv, tsv)
+        Parameters:
+        :param gameID: The gameID for the the game to be fetched
+        :param colNames: Names of columns (list) in the file, corresponding to the data [should maintain order]
+                         Provide the names of columns (list of strings) containing the following data (in order):
+                         [Subject ID, Session Number, Game Number, Screen Resolution, Eyetracker timestamp for each frame, 
+                         System timestamp for each frame, Board Representation, Zoid Representation]
+        :return: a GameLog class Object
+        """
         def parse(self, gameID, colNames):
                 print("Fetching game metadata from SQL server.")
                 metaData_Query = "SELECT * FROM GameSummaries WHERE gameID = " + str(gameID)

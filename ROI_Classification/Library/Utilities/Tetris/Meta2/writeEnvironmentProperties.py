@@ -1,5 +1,5 @@
 # File contains code to create json files that contain information about location
-# of various objects in a tetris environment [inormation in pixels]
+# of various objects in a tetris environment [inormation in pixels] for a 1080p screen.
 # For every object in the environment, the bounding box has been calculated by:
 #   Getting the extreme left/right, top/bottom coordinates followed by
 #   a padding of 50 pixels (lingth of the side of each block) around the bounding box.

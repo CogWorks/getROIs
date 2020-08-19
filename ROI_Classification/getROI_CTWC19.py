@@ -69,7 +69,7 @@ def getClassifications():
                 #     continue
 
                 # Get ID for the game
-                gameID = gameParser.get_gameID_fromFilePath(gameFile, 'gameID', 'CTWC19')
+                gameID = gameParser.get_gameID_fromFilePath(gameFile, 'gameID')
                 if gameID == None:
                     continue
 

@@ -47,6 +47,28 @@ class GameParser:
 
                 return gameData
 
+        """
+        Parameters:
+        :param syncfile_path: The path where the sync file exsts, the data from game files in that directory will be returned
+        :param gameID_columnName: The name of the column containing gameID in the database 
+        :param root_dir: The root directory containing all game files relevant to current analysis. Ex: CTWC19
+                         Right now, it's vestigial.
+        """
+        def get_gameID_fromFilePath(self, file_path, gameID_columnName, root_dir=None):
+                # Begin the path from the Tetris directory and end at experiment directory
+                fileName = file_path.split('/')[-1]
+                # experiment_path = '/'.join(experiment_path[experiment_path.index(root_dir):-1])
+                # Find all entries that have the path as substring
+                fileName = '%%'+fileName+'%%'
+                gameID_Query = "SELECT " + gameID_columnName + " FROM GameSummaries WHERE filePath LIKE '" + str(fileName) + "'"
+                gameID_DF = pd.read_sql(gameID_Query, self.dbConnection)
+                if gameID_DF.shape[0] == 0:
+                        print("There were no entries corresponding to: \n", fileName)
+                        return None
+                else:
+                        print("Got game IDs")
+                        return gameID_DF[gameID_columnName].tolist()
+
 
         # Function never used or checked
         def get_gameID_fromInformation(self, Event_Identifier, subID, gameNum, sessNum):
@@ -61,27 +83,6 @@ class GameParser:
                 #         print("No data for subject: ", subjectID, ", Game: ", gameNum, ", Session: ", sessionNum)
                 #         return None
 
-
-        """
-        Parameters:
-        :param syncfile_path: The path where the sync file exsts, the data from game files in that directory will be returned
-        :param gameID_columnName: The name of the column containing gameID in the database 
-        :param root_dir: The root directory containing all game files relevant to current analysis. Ex: CTWC19
-        """
-        def get_gameID_fromFilePath(self, syncfile_path, gameID_columnName, root_dir):
-                # Begin the path from the Tetris directory and en at experiment directory
-                experiment_path = syncfile_path.split('/')[-1]
-                # experiment_path = '/'.join(experiment_path[experiment_path.index(root_dir):-1])
-                # Find all entries that have the path as substring
-                experiment_path = '%%'+experiment_path+'%%'
-                gameID_Query = "SELECT " + gameID_columnName + " FROM GameSummaries WHERE filePath LIKE '" + str(experiment_path) + "'"
-                gameID_DF = pd.read_sql(gameID_Query, self.dbConnection)
-                if gameID_DF.shape[0] == 0:
-                        print("There were no entries corresponding to: \n", experiment_path)
-                        return None
-                else:
-                        print("Got game IDs")
-                        return gameID_DF[gameID_columnName].tolist()
 
 
         def get_DBconnection(self):

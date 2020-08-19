@@ -14,7 +14,11 @@ class GazeParser:
       :param fileExtension: String value for the type of files to read (Ex: '.tsv', '.csv') 
       :param delimeter: string for the character separating the values (Ex: '\t' for tab-separated values)
       :param colNames: Names of columns (list) in the file, corresponding to the data [should maintain order]
-      :return: a GazeLog Object
+                       Provide the names of columns (list of strings) containing the following data (in order):
+                       [SubjectID, Recording Date, Recording Start Time, timestamp for each frame, Gaze X Coordinate, 
+                       Gaze Y Coordinate, Gaze Z Coordinate, Gaze class (fixation/saccade), 
+                       Event ID (a new event everytime gaze class changes)]
+      :return: a GazeLog class Object
     """
     def parse(self, gazeFile, fileExtension, delimeter, colNames):
         if (gazeFile.endswith(fileExtension)):
